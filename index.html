@@ -42,11 +42,38 @@ startAnimation();
 
 <!-- VERSION ANGULAR JS -->
 
-<input type="text" [(ngModel)]="inputText" placeholder="Entrez une chaîne de caractères">
-<button (click)="startAnimation()">Afficher</button>
 <div id="outputContainer">
-  <span *ngFor="let word of words; let i = index" class="fade-in" [style.transition]="'opacity 1s ease-in-out'" [style.opacity]="opacities[i]">
-    {{ word }}
-  </span>
-</div>
+    <span *ngFor="let word of words; let i = index" class="fade-in" [style.transition]="'opacity 1s ease-in-out'" [style.opacity]="opacities[i]">
+      {{ word }}
+    </span>
+  </div>
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  words: string[] = [];
+  opacities: number[] = [];
+
+  ngOnInit() {
+    this.inputText = "Votre chaîne de caractères ici"; // Remplacez par votre chaîne de caractères
+    this.startAnimation();
+  }
+
+  startAnimation() {
+    this.words = this.inputText.split(' ');
+    this.opacities = this.words.map(() => 0);
+
+    this.words.forEach((word, index) => {
+      setTimeout(() => {
+        this.opacities[index] = 1;
+      }, index * 1000); // Délai d'affichage en millisecondes
+    });
+  }
+}
+
 
